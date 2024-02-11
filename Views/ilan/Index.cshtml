@@ -1,0 +1,100 @@
+﻿@using stajdeneme.Models
+@model List<tbl_ilan>
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+
+
+<title>Yeşil-Mavi Yazılım </title>
+<style>
+    .mfp-close {
+        cursor: pointer !important;
+    }
+
+    body {
+        background: #f1f1f1;
+    }
+
+    table {
+        background: #fff;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #009879;
+            }
+</style>
+<table class="table table-bordered">
+    <tr>
+        <th>  id</th>
+        <th>  Sahibi</th>
+        <th>  Başlık</th>
+        <th>  Açıklama</th>
+        <th>  Beceriler</th>
+        <th>  Tarih</th>
+        <th>  Tip</th>
+        <th>  Durum</th>
+
+        <th> Sil</th>
+        <th> Güncelle</th>
+    </tr>
+    <tbody>
+        @foreach (var ktgr in Model)
+        {
+            <tr>
+                <th>@ktgr.ilan_id</th>
+                <td>@ktgr.ilan_sahibi</td>
+                <td>@ktgr.ilan_baslik</td>
+                <td>@ktgr.ilan_aciklama</td>
+                <td>@ktgr.ilan_beceriler</td>
+                <td> @Convert.ToDateTime(ktgr.ilan_tarih).ToString("dd/MM/yyyy")</td>
+                <td>@ktgr.ilan_tip</td>
+                <td>@ktgr.ilan_durum</td>
+                <td><a href="~/ilan/Sil/@ktgr.ilan_id" class="btn btn-danger">Sil</a></td>
+
+                <td><a href="~/ilan/Guncelle/@ktgr.ilan_id" class="btn btn-success">Güncelle</a></td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+@*@Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Index", new { sayfa }))*@
+<a href="/ilan/ilanEkle" class="btn btn-success">Yeni İlan Ekle</a>
+<a href="~/Basvuru/index" class="btn btn-success">Geri dön</a>

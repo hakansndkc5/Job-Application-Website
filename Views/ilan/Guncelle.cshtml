@@ -1,0 +1,63 @@
+﻿@model stajdeneme.Models.tbl_ilan
+@{
+    ViewBag.Title = "KategoriGuncelle";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+<title>Yeşil-Mavi Yazılım</title>
+@using (Html.BeginForm("RGuncelle", "ilan", FormMethod.Post))
+{
+    <div style="margin-top:10px">
+
+        @Html.HiddenFor(x => x.ilan_id)
+        @*@Html.TextBoxFor(m => m.ilan_sahibi, new { @class = "form-control" })*@
+    </div>
+    <div style="margin-top:10px">
+        @Html.Label("İlan Sahibi")
+
+        @Html.TextBoxFor(m => m.ilan_sahibi, new { @class = "form-control" })
+    </div>
+    <div style="margin-top:10px">
+        @Html.Label("İlan Başlık")
+
+        @Html.TextBoxFor(m => m.ilan_baslik, new { @class = "form-control" })
+    </div>
+    <div style="margin-top:10px">
+        @Html.Label("İlan Açıklama")
+
+        @Html.TextBoxFor(m => m.ilan_aciklama, new { @class = "form-control" })
+    </div>
+    <div style="margin-top:10px">
+        @Html.Label("İlan Beceriler")
+
+        @Html.TextAreaFor(m => m.ilan_beceriler, new { @class = "form-control" })
+    </div>
+    <div style="margin-top:10px">
+        @Html.Label("İlan Tarih")
+
+        @Html.TextBoxFor(m => m.ilan_tarih, new { @class = "form-control datetime", @placeholder = "Gün/Ay/Yıl", @id = "datetime", @autocomplete = "off" })
+        @Html.ValidationMessageFor(m => m.ilan_tarih, "", new { @style = "color:red" })
+    </div>
+
+    <div style="margin-top:10px">
+
+
+        <div class="form-group col-md-12">
+            <label>  @Html.Label("İlan Durum")</label><br />
+
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.ilan_durum, false)False
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.ilan_durum, true) True
+            </label>
+            <br />
+
+        </div>
+        @*@Html.ValidationMessageFor(m => m.ilan_tip, "", new { @style = "color:red" })*@
+    </div>
+    <div style="margin-top:10px">
+        <button class="btn btn-success">Güncelle</button>
+        <button data-target="~/ilan/Index" class="btn btn-danger">Geri</button>
+    </div>
+
+}

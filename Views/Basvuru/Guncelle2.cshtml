@@ -1,0 +1,38 @@
+﻿@model stajdeneme.Models.tbl_basvuru
+@{
+    ViewBag.Title = "Guncelle2";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+<title>Yeşil-Mavi Yazılım</title>
+@using (Html.BeginForm("RGuncelle2", "Basvuru", FormMethod.Post))
+{<div style="margin-top:10px">
+
+        @Html.HiddenFor(m => m.basvuru_id, new { @class = "form-control" })
+    </div>
+
+    <div style="margin-top:10px">
+        @Html.Label("İsim")
+        @Html.TextBoxFor(m => m.basvuru_ad, new { @class = "form-control" })
+    </div>
+    <div style="margin-top:10px">
+        @Html.Label("Soyisim")
+        @Html.TextBoxFor(m => m.basvuru_soyad, new { @class = "form-control" })
+    </div>
+    <div style="margin-top:10px">
+        @Html.Label("Tel")
+        @Html.TextBoxFor(m => m.basvuru_tel, new { @class = "form-control" })
+    </div>
+    <div style="margin-top:10px">
+        @Html.Label("E-mail")
+        @Html.TextBoxFor(m => m.basvuru_email, new { @class = "form-control" })
+    </div>
+    <div style="margin-top:10px">
+        @Html.Label("Yorum")
+        @Html.TextAreaFor(m => m.basvuru_adminyorum, new { @class = "form-control" })
+    </div>
+    <div style="margin-top:10px">
+        <button class="btn btn-success">Güncelle</button>
+        <button data-target="~/Basvuru/Index" class="btn btn-danger">Geri</button>
+    </div>
+
+}

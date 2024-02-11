@@ -1,0 +1,64 @@
+﻿@using stajdeneme.Models
+@model List<tbl_ilan>
+@{
+    ViewBag.Title = "ilan";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+
+
+<title>Yeşil-Mavi Yazılım İlanlar</title>
+
+
+@foreach (var s in Model)
+{
+    if (@s.ilan_durum==true)
+    {
+
+    
+    <div class="form-row">
+
+        <div class="form-group col-md-12">
+           
+                <div class="card ">
+                    @*<img class="card-img-top img-fluid" src="" width="200px" height="200px">*@
+                    <div class="card-img-overlay card-body">
+                        <h3 class="h3 u-clear-gap-bottom u-text-ilan-baslik" style="color: #217fe7;" >@s.ilan_baslik</h3>
+                        <p class="card-text text-danger">
+                            @*@s.ilan_id*@
+                            <h5 class="  h5 u-text-ilan-altbaslik" style="color: #25e359;"> @s.ilan_aciklama </h5><br>
+
+                            @s.ilan_beceriler<br />
+                                             <h5 class="u-font-size-sm u-gap-right-medium u-text-nowrap"><i class="glyphicon glyphicon-calendar"> </i>
+                                                 @Convert.ToDateTime(s.ilan_tarih).ToString("dd/MM/yyyy")
+                                                                     </h5>  </p>
+
+                                <a href="~/Basvuru/Insert?basvuru_ilanid=@s.ilan_id&tip=@s.ilan_tip" class="btn btn-danger" value="@s.ilan_id">Başvur<i class="glyphicon glyphicon-menu-right"> </i><i class="glyphicon glyphicon-menu-right"> </i></a>
+                         
+
+                    </div>
+                </div>
+            </div>
+
+     
+    </div>
+    }
+}
+
+
+@*<div class="container mt-3">
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>*@
+
+

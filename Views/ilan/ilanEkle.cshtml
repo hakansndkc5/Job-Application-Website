@@ -1,0 +1,59 @@
+﻿
+@model stajdeneme.Models.tbl_ilan
+@{
+    ViewBag.Title = "ilanEkle";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+<title>Yeşil-Mavi Yazılım</title>
+@using (Html.BeginForm("ilanEkle", "ilan", FormMethod.Post))
+{
+
+    <div style="margin-top:10px">
+        <label>İlan Sahibi</label>
+        @Html.TextBoxFor(m => m.ilan_sahibi, new { @class = "form-control", @Value = "admin" })
+        @Html.ValidationMessageFor(m => m.ilan_sahibi, "", new { @style = "color:red" })
+    </div>
+    <div style="margin-top:10px">
+        <label>İlan Başlığı</label>
+        @Html.TextBoxFor(m => m.ilan_baslik, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ilan_baslik, "", new { @style = "color:red" })
+    </div>
+    <div style="margin-top:10px">
+        <label>İlan açıklaması</label>
+        @Html.TextBoxFor(m => m.ilan_aciklama, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ilan_aciklama, "", new { @style = "color:red" })
+    </div>
+
+    <div style="margin-top:10px">
+        <label>İlan Becerileri</label>
+        @Html.TextAreaFor(m => m.ilan_beceriler, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ilan_beceriler, "", new { @style = "color:red" })
+    </div>
+    <div style="margin-top:10px">
+        <label>İlan Tip</label>
+        @Html.DropDownListFor(m => m.tbl_tip.tip_id, (List<SelectListItem>)ViewBag.v, "Seçim yapınız..", new { @class = "form-control" })
+        @*@Html.DropDownListFor(m => m.tbl_universite.universite_id, (List<SelectListItem>)ViewBag.uni, new { @class = "form-control", @name = "Universiteler", @id = "Universite" })*@
+
+        @Html.ValidationMessageFor(m => m.ilan_tip, "", new { @style = "color:red" })
+    </div>
+    <div style="margin-top:10px">
+        <label>İlan Durum</label><br />
+
+        <label class="radio-inline">
+            @Html.RadioButtonFor(m => m.ilan_durum, false)False
+        </label>
+        <label class="radio-inline">
+            @Html.RadioButtonFor(m => m.ilan_durum, true, new { Checked = "checked" }) True
+        </label>
+        <br />
+
+    </div>
+    <div style="margin-top:10px">
+        <button class="btn btn-success" id="button1">Yeni İlan Ekle</button>
+        <a href="~/ilan/index" class="btn btn-success">Geri dön</a>
+    </div>
+    <script>
+        $('#button1').click(function () { alert("Ekleme işleminiz yapıldı"); });
+    </script>
+}
+

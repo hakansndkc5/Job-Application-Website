@@ -1,0 +1,328 @@
+﻿@using stajdeneme.Models
+@*@model List<tbl_basvuru>*@
+@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<tbl_basvuru>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+<meta name="viewport" content="width=device-width" />
+<title>Yeşil-Mavi Yazılım</title>
+<link href="~/Content/dist/magnific-popup.css" rel="stylesheet" />
+<style>
+
+
+    .mfp-close {
+        cursor: pointer !important;
+    }
+
+    body {
+        background: #f1f1f1;
+    }
+
+    table {
+        background: #fff;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #009879;
+            }
+</style>
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Content/dist/jquery.magnific-popup.min.js"></script>
+
+
+@using (@Html.BeginForm("Index", "Basvuru", FormMethod.Get))
+{
+    <p>
+        <h3>Arama...</h3>@Html.TextBox("ara", null, new { @autocomplete = "off", @placeholder = "Arama.." })
+
+        <button class="btn btn-primary btn-sm" type="submit" value="Ara"> <i class="glyphicon glyphicon-search"></i></button>
+        @*<a href="@Url.Action("ExcelExport", "Basvuru")" class="btn btn-success btn-sm"> Excel Export  <i class="glyphicon glyphicon-download-alt"> </i></a>*@
+        <a href="#" class="btn btn-success btn-sm" id="export">Excele Aktar  <i class="glyphicon glyphicon-download-alt"> </i></a>
+        <a href="~/ilan/index" class="btn btn-warning btn-sm" id="export">İlanlar  <i class="glyphicon glyphicon-arrow-right"> </i></a>
+        <a href="~/Login/Login" class="btn btn-danger btn-sm" id="export">Çıkış  <i class="glyphicon glyphicon glyphicon-off"> </i></a>
+        <br />
+    </p>
+}
+<br />
+<table class="table table-bordered styled-table">
+    <tr>
+        <th>Sıra No</th>
+        <th>Başvuru Tarihi</th>
+        <th> Foto</th>
+        <th> Adı</th>
+        <th> Soyad</th>
+        <th> Başvuru Tipi</th>
+        <th> Pozisyon</th>
+        <th> Uyruk</th>
+        <th> Tel</th>
+        <th> email</th>
+        <th> Okul</th>
+        <th> Fakulte</th>
+        <th> Bölüm</th>
+        <th> Sınıf</th>
+        <th>
+            Başlangıç  <br />
+            Bitiş tarihi
+        </th>
+
+        <th> Seçenekler</th>
+
+
+
+
+
+    </tr>
+    @{int i = 0; }
+    <tbody>
+
+        @foreach (var s in Model.OrderByDescending(s => s.basvuru_basvurutarihi))
+        {
+
+
+
+            <tr>
+                <td>
+                    <div>
+                        @{
+                            i++;
+                        }
+                    </div>
+                    @i
+                </td>
+                <td>@s.basvuru_basvurutarihi </td>
+                <td>
+                    <div>
+                        <div class="popup-gallery">
+                            @*<a href="@Url.Content(String.Format("~/Uploads/Image/{0}", @s.basvuru_foto))" width="400" height="400" title="Demo1">*@
+
+                            <a href="#" class="view dropdown-item btn btn-light" data-target="/Basvuru/EmployeeDetail?id=@s.basvuru_id&foto=@s.basvuru_foto">
+                                <img src="@Url.Content(String.Format("~/Uploads/Image/{0}", @s.basvuru_foto))" width="100" height="100" />
+                            </a><br />
+                        </div>
+                    </div>
+
+
+
+                    @*<a href="#" class="thumbnail" width="100px" height="100px">
+                                <img src="@Url.Content(String.Format("~/Uploads/Image/{0}", @s.basvuru_foto))"  name="1" />
+                            </a>
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                                    <img src="@Url.Content(String.Format("~/Uploads/Image/{0}", @s.basvuru_foto))" style="height:400px;width: 566px;" name="1" class="img-responsive">
+                                                </div>
+
+
+                                             Controls
+
+                                    </div>
+                                </div>
+                            </div>*@
+
+
+
+                </td>
+
+
+                <td>@s.basvuru_ad</td>
+                <td>@s.basvuru_soyad</td>
+                <td>@s.tbl_ilan.tbl_tip.tip_name</td>
+                <td>@s.tbl_ilan.ilan_baslik</td>
+                <td>@s.basvuru_uyruk</td>
+                <td>@s.basvuru_tel</td>
+                <td>@s.basvuru_email</td>
+                <td>@s.tbl_universite.name</td>
+                <td>@s.tbl_fakulte.name</td>
+                <td>@s.tbl_bolum.name</td>
+                <td>@s.basvuru_sınıf</td>
+                <td>@s.basvuru_başlangıc<hr /> @s.basvuru_bitis</td>
+
+                <td>
+                    <div class="dropdown show">
+                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Seçenekler<i class="glyphicon glyphicon-arrow-down"> </i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="max-width:10px">
+                            <a href="#" class="view dropdown-item btn btn-light" data-target="/Basvuru/EmployeeDetail/@s.basvuru_id">Git</a><br />
+                            @Html.ActionLink("İndir ", "DownloadFile", new { fileName = s.basvuru_cv }, new { @class = "dropdown-item btn btn-light" })<br />
+                            <a href="/Basvuru/Sil/@s.basvuru_id" class="dropdown-item btn btn-light">Sil</a><br />
+                            <a href="/Basvuru/Guncelle2/@s.basvuru_id" class="dropdown-item btn btn-light">Güncelle</a>
+                        </div>
+                    </div>
+
+                </td>
+                @*<td><a href="#" class="view btn btn-danger" data-target="/Basvuru/EmployeeDetail/@s.basvuru_id">Git</a></td>
+                    <td>@Html.ActionLink("İndir ", "DownloadFile", new { fileName = s.basvuru_cv }, new { @class = "btn btn-primary" })</td>
+
+                    <td><a href="/Basvuru/Guncelle2/@s.basvuru_id" class="btn btn-success">Güncelle</a></td>*@
+            </tr>
+
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="modelView" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">x</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"> Details</h4>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    @*görünücek kısım*@
+
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" type="button" data-dismiss="modal">Kapat  </button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Index", new { sayfa }))
+
+
+<script>
+    $(function () {
+        // a tagimizde bulunan .view classımıza click olduğunda
+        $("body").on("click", ".view", function () {
+            //data-target dan url mizi al
+            var url = $(this).data("target");
+            //bu urlimizi post et
+            $.post(url, function (data) { })
+                //eğer işlemimiz başarılı bir şekilde gerçekleşirse
+                .done(function (data) {
+                    //gelen datayı .modal-body mizin içerise html olarak ekle
+                    $("#modelView .modal-body").html(data);
+                    //sonra da modalimizi göster
+                    $("#modelView").modal("show");
+                })
+                //eğer işlem başarısız olursa
+                .fail(function () {
+                    //modalımızın bodysine Error! yaz
+                    $("#modelView .modal-body").text("Error!!");
+                    //sonra da modalimizi göster
+                    $("#modelView").modal("show");
+                })
+
+        });
+    })</script>
+
+<script>
+    $(function () {
+        $('.popup-gallery').magnificPopup({
+            delegate: 'a',
+            type: 'image',
+            tLoading: 'Loading image #%curr%...',
+            mainClass: 'mfp-img-mobile',
+            cursor: 'mfp-zoom-out-cur',
+            preloader: false,
+            gallery: {
+                enabled: true,
+                navigateByImgClick: true,
+                preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+            },
+            image: {
+                tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+                titleSrc: function (item) {
+                    return item.el.attr('title') + '<br>by Gateway';
+                }
+            }
+        });
+
+        $('.openP').magnificPopup({
+            disableOn: 700,
+            type: 'iframe',
+            mainClass: 'mfp-fade',
+            removalDelay: 160,
+            preloader: false,
+            fixedContentPos: false
+        });
+
+    });
+</script>
+<script>
+    $(function () {
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || moment(value, "DD.MM.YYYY", true).isValid();
+        }
+    });</script>
+<script>
+    $(document).ready(function () {
+        $("#export").click(function () {
+            ExportToExcel();
+        });
+    });
+
+    function ExportToExcel()
+    {
+        var url = '@Url.Action("GridExportToExcel", "Basvuru")';
+        window.open(url);
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.thumbnail').click(function () {
+            var name = $(this).find('img').attr('src');
+            var mname = $('.carousel-inner').find("img[src='" + $(this).find('img').attr('src') + "']");
+            $('.carousel-innerdiv').removeClass("active");
+            $(mname).parent().addClass("active");
+            $('#myModal').modal({
+                backdrop: 'static',
+            }, 'show');
+        });
+        $(function () {
+            $("#myCarousel").carousel({
+                interval: 5000
+            });
+        });
+    });</script>

@@ -1,0 +1,908 @@
+﻿@model stajdeneme.Models.tbl_basvuru
+@using CaptchaMvc.HtmlHelpers
+@using stajdeneme;
+
+@using CaptchaMvc;
+
+
+@{
+    ViewBag.Title = "Insert";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+
+
+<style>
+    .input-validation-error {
+        border-color: red
+    }
+
+    body {
+        background: #f1f1f1
+    }
+
+    font-face {
+    }
+
+    input[type="text"]:focus {
+        outline: none;
+        box-shadow: 0px 0px 5px #61C5FA;
+        border: 1px solid #5AB0DB;
+    }
+
+    input[type="text"]:hover {
+        border: 1px solid #00ff90;
+        border-radius: 5px;
+    }
+
+    input[type="text"]:focus:hover {
+        outline: none;
+        box-shadow: 0px 0px 5px #61C5FA;
+        border: 1px solid #5AB0DB;
+        border-radius: 0;
+    }
+
+    input[type="textarea"]:focus {
+        outline: none;
+        box-shadow: 0px 0px 5px #61C5FA;
+        border: 1px solid #5AB0DB;
+    }
+
+    input[type="textarea"]:hover {
+        border: 1px solid #00ff90;
+        border-radius: 5px;
+    }
+
+    input[type="textarea"]:focus:hover {
+        outline: none;
+        box-shadow: 0px 0px 5px #61C5FA;
+        border: 1px solid #5AB0DB;
+        border-radius: 0;
+    }
+</style>
+
+
+@*<script>
+        function myFunction() {
+            alert("Başvurunuz alınmıştır ilan sayfasına yönlendiriliyorsunuz!");
+        }
+    </script>*@
+@{string title1 = " Staj Başvuru Formu"; }
+@{string title2 = " İş Başvuru Formu"; }
+@if (@ViewBag.tt != 2)
+{<title>Yeşil Mavi Yazılım @title1</title>
+}
+else
+{
+<title>Yeşil Mavi Yazılım @title2</title>
+}
+
+<form method="post" class="form-group" enctype="multipart/form-data">
+    <div style="margin-top:10px">
+        <div>
+            <h2 style="        color: black;
+        text-align: center">
+                @if (@ViewBag.tt != 2)
+                {
+                    @title1;
+                }
+                else
+                {
+                    @title2;
+                }
+            </h2>
+
+        </div>
+
+    </div><br />
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group col-md-6">
+                <label>Adınız:</label>
+
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </div>
+                    @Html.TextBoxFor(m => m.basvuru_ad, new { @class = "form-control ", @placeholder = "Adınızı giriniz..", @id = "basvuru_ad", @autocomplete = "off" })
+
+                </div> @Html.ValidationMessageFor(m => m.basvuru_ad, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-6">
+                <label>Soyadınız:</label>
+
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </div>
+                    @Html.TextBoxFor(m => m.basvuru_soyad, new { @class = "form-control", @placeholder = "Soyadınızı giriniz..", @id = "basvuru_soyad", @autocomplete = "off" })
+                </div> @Html.ValidationMessageFor(m => m.basvuru_soyad, "", new { @class = "text-danger" })
+
+            </div>
+
+
+
+
+
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label>Cep Telefon Numarası:</label>
+
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-earphone"></span>
+                        </div>
+                        @Html.TextBoxFor(m => m.basvuru_tel, new { @class = "form-control", @placeholder = "(555) 555 55 55.. ", @id = "phone", @autocomplete = "off" })
+
+                    </div> @Html.ValidationMessageFor(m => m.basvuru_tel, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label>E-mail Adresi: </label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                        </div>
+                        @Html.TextBoxFor(m => m.basvuru_email, new { @class = "form-control", @placeholder = "örnek@gmail.com..", @id = "basvuru_email", @autocomplete = "off" })
+                    </div>  @Html.ValidationMessageFor(m => m.basvuru_email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-12">
+                    <label>Uyruk:</label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(m => m.basvuru_uyruk, "Tc", new { Checked = "checked" }) T.C
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(m => m.basvuru_uyruk, "diğer") diğer
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>iller:</label>
+                 
+                    @Html.DropDownListFor(m => m.iller.id, (List<SelectListItem>)ViewBag.il, "", new { @class = "form-control", @name = "iller", @id = "il",required = (string)null })
+                    @Html.ValidationMessageFor(m => m.basvuru_il, "", new { @class = "text-danger" })
+                </div>               
+                <div class="form-group col-md-6">
+                    <label>ilçeler:</label>
+                    @Html.DropDownListFor(m => m.ilceler.id, (List<SelectListItem>)ViewBag.ilce, "", new { @class = "form-control", @name = "ilceler", @id = "ilce" })
+                    @Html.ValidationMessageFor(m => m.basvuru_ilce, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <label>Açık Adres:</label>
+                @Html.TextAreaFor(m => m.basvuru_adres, new { @class = "form-control", @placeholder = "", @id = "basvuru_adres", @autocomplete = "off" })
+                @Html.ValidationMessageFor(m => m.basvuru_adres, "",new { @class = "text-danger" })
+            </div>
+            </div>
+        </div>
+            @if (@ViewBag.tt != 2)
+            {
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
+                                <label>Not Ortalama:</label>
+                                @Html.TextBoxFor(m => m.basvuru_notortalama, new { @class = "form-control", @placeholder = "Örnek:3.5", @autocomplete = "off" })
+                                @Html.ValidationMessageFor(m => m.basvuru_notortalama, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Sınıf:</label><br />
+
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_sınıf, "1") 1. sınıf
+                                </label>
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_sınıf, "2") 2. sınıf
+                                </label>
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_sınıf, "3") 3. sınıf
+                                </label>
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_sınıf, "4") 4. sınıf
+                                </label><br /><br />
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            @*<div class="form-group col-md-5">
+                            <div class="form-group">
+                                <div class='input-group date' id='datetime'>
+
+
+                                    @Html.TextBoxFor(m => m.basvuru_başlangıc, new { @class = "form-control datetime", @placeholder = "dd-mm-yy", @id = "datetime", @autocomplete = "off" })
+                                    @Html.ValidationMessageFor(m => m.basvuru_başlangıc, "", new { @class = "text-danger" })
+                                    <div class="form-group col-md-1">
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                            <div class='col-sm-6'>
+                                <div class="form-group">
+                                    <label>Başlangıç tarihi</label>
+                                    <div class='input-group date' id='datetimepicker1'>
+
+                                        @Html.TextBoxFor(m => m.basvuru_başlangıc,"{0:dd-MM-yyyy}", new { @class = "form-control datetime", @placeholder = "Gün/Ay/Yıl", @id = "datetime", @autocomplete = "off"  })
+
+
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>  @Html.ValidationMessageFor(m => m.basvuru_başlangıc, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @*<div class="form-group col-md-6">
+                            <label>Bitiş tarihi</label><br />
+                            @Html.TextBoxFor(m => m.basvuru_bitis, new { @class = "form-control datetime", @placeholder = "dd-mm-yy", @id = "datetime2", @autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.basvuru_bitis, "", new { @class = "text-danger" })
+                        </div>*@
+                            <div class='col-sm-6'>
+                                <div class="form-group">
+                                    <label>Bitiş tarihi</label>
+                                    <div class='input-group date' id='datetimepicker1'>
+
+                                        @Html.TextBoxFor(m => m.basvuru_bitis,"{0:dd-MM-yyyy}", new { @class = "form-control datetime", @placeholder = "Gün/Ay/Yıl", @id = "datetime2", @autocomplete = "off"  })
+
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>  @Html.ValidationMessageFor(m => m.basvuru_bitis, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Üniversiteler:</label>
+                    @*<select class="form-control" name="iller" id="il"><option>Bir Universite Seçiniz</option></select>*@
+                    @Html.DropDownListFor(m => m.tbl_universite.universite_id, (List<SelectListItem>)ViewBag.uni,"", new { @class = "form-control", @name = "Universiteler", @id = "Universite" })
+                    @Html.ValidationMessageFor(m => m.basvuru_okul, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="panel-body">
+                    @*<label>Fakuteler:</label>
+                <select class="form-control" name="ilceler" id="ilce" disabled>
+                    <option>Bir fakulte Seçiniz</option>
+                </select>*@
+                    @Html.DropDownListFor(m => m.tbl_fakulte.fakulte_id, (List<SelectListItem>)ViewBag.fak, "", new { @class = "form-control", @name = "Fakulteler", @id = "Fakulte" })
+                    @Html.ValidationMessageFor(m => m.basvuru_fakulte, "", new { @class = "text-danger" })
+
+
+                </div>
+                <div class="panel-body">
+                    @*<label>Bölümler</label>
+                <select class="form-control" name="bolumler" id="bolum" disabled>
+                    <option>Bir Bölüm Seçiniz</option>
+                </select>*@
+                    @Html.DropDownListFor(m => m.tbl_bolum.bolum_id, (List<SelectListItem>)ViewBag.bolum, "", new { @class = "form-control", @name = "bolumler", @id = "bolum" })
+                    @Html.ValidationMessageFor(m => m.basvuru_bolum, "", new { @class = "text-danger" })
+                    .
+                </div>
+            </div>
+
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>HTML Seviyesi:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerhtml, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerhtml, "başlangıç") başlangıç
+                                </label>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerhtml, "orta") orta
+                                </label>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerhtml, "ileri") ileri
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>CSS    Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilercss, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilercss, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilercss, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilercss, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>SQL    Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilersql, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilersql, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilersql, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilersql, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>ASP.NET Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerileraspnet, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerileraspnet, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerileraspnet, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerileraspnet, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>MVC    Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilermvc, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilermvc, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilermvc, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilermvc, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>C#     Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerc_, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerc_, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerc_, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerc_, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>jS     Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjs, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjs, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjs, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjs, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>jQUERY  Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjquery, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjquery, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjquery, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjquery, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>jSON   Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjson, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjson, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjson, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjson, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>XML    Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerxml, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerxml, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerxml, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerxml, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>jAVA   Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjava, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjava, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjava, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_becerilerjava, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md">
+                                <label>İngilizce Seviyesi:</label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_yabancıdil, "bilmiyorum", new { Checked = "checked" }) bilmiyorum
+                                </label>
+                            </div> <div class="col-md-3">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_yabancıdil, "başlangıç") başlangıç
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_yabancıdil, "orta") orta
+                                </label>
+                            </div> <div class="col-md-2">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.basvuru_yabancıdil, "ileri") ileri
+                                </label>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel panel-body">
+                        <div class="form-group col-md-6">
+                            <label>Referans</label>
+                            @Html.TextBoxFor(m => m.basvuru_referans, new { @class = "form-control", @placeholder = "Referans giriniz..", @autocomplete = "off" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Github</label>
+                            @Html.TextBoxFor(m => m.basvuru_github, new { @class = "form-control", @placeholder = "Github adresinizi giriniz..", @autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel panel-body">
+                        <div class="form-group col-md-6">
+                            <label>Saglık durumu:</label>
+                            @Html.TextBoxFor(m => m.basvuru_saglık, new { @class = "form-control", @placeholder = "Sağlık durumunu giriniz..", @autocomplete = "off" })
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            <label>Covid aşısı oldunuz mu?</label><br />
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(m => m.basvuru_covid, "evet") evet
+                            </label>
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(m => m.basvuru_covid, "hayır") hayır
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel panel-body">
+                        <div class="form-group col-md-12">
+                            <label>Bizi Nasıl Buldunuz: </label><br />
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(m => m.basvuru_nasılbuldunuz, "sosyal medya") Sosyal Medya
+                            </label>
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(m => m.basvuru_nasılbuldunuz, "üniversite") Üniversite
+                            </label>
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(m => m.basvuru_nasılbuldunuz, "diğer") diğer
+                            </label>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>Hobiler:</label>
+                            @Html.TextAreaFor(m => m.basvuru_hobiler, new { @class = "form-control", @placeholder = "Hobilerinizi giriniz..", @autocomplete = "off" })
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>Bizi Neden Seçtiniz:</label>
+                            @Html.TextAreaFor(m => m.basvuru_bizinedensectiniz, new { @class = "form-control", @placeholder = "Bizi neden seçtiniz..", @autocomplete = "off" })
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>Eklemek İstediğiniz Birşey..</label>
+                            @Html.TextAreaFor(m => m.basvuru_diger, new { @class = "form-control", @placeholder = "Eklemek istediğiniz Birşey..", @autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel panel-body">
+                        <div class="form-group col-md-6">
+                            <label>
+                                Foto Upload <i>(En fazla 1 mb)</i>
+                            </label><br />
+                            @Html.AntiForgeryToken()
+                            <input type="file" class="file btn btn-lg btn-primary  btn-sm" name="file" /><br />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Cv Upload</label><i>(En fazla 2 mb)</i><br />
+                            @Html.AntiForgeryToken()
+                            <input type="file" class="file btn btn-lg btn-primary  btn-sm" id="formFileMultiple" name="file2" /><br />
+                        </div>
+                        <div class="form-group col-md-12">
+                            @Html.LabelFor(model => model.basvuru_ilanid, (string)@ViewBag.ilanid, new { style = "display: none;" })
+                            <br />                          
+                        </div>                     
+                        <div class="form-group col-md-12">
+                            <!--Kendi Site keyinizle değiştirin.-->
+                            <div class="g-recaptcha" data-sitekey="6LeOE8AbAAAAADsqiC1GjQQcwvNoQ2TrSp7L4xqq"></div><br />
+                            <input class="btn btn-success" style="text-align: center" type="submit" value="Gönder" id="btnsubmit"/><br />
+                            <br />
+                            <div>
+                                @if (ViewBag.m == true)
+                                {
+                                    <script type="text/javascript">
+
+
+
+                                        alert("başarıylı kayıt yaptınız..");
+
+                                    </script>
+
+                                }
+                                else if (ViewBag.m == false)
+                                {
+                                    <script type="text/javascript">
+
+
+
+                                        alert("Kayıt yaparken bir hata meydana geldi..");
+
+                                    </script>
+
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+</form>
+@*<script>
+  
+       $(document).ready(function myFunction5() {
+       alert('@ViewBag.m');
+    });
+        
+        
+    
+</script>*@
+<script>
+    $(function myFunction() {
+        //aynı ajaxmı kullanıcağımdan dolayı ajaxsetup oluştuyorum
+        $.ajaxSetup({
+            type: "post",
+            url: "/Basvuru/UFB",//controlerımda gidicek olan yerim
+            dataType: "json"
+        });
+        $.extend({
+            ilGetir: function () {
+                $.ajax({
+                    //datamızı gönderiyoruz
+                    data: { "tip": "ilGetir" },
+                    success: function (sonuc1) {
+                        //gelen sonucumuz kontrol ediyoruz ona göre selectimze append işlemi gerçekleştiyoruz
+                          $("#il option").remove();
+                          $("#ilce option").remove();
+                        $("#il").prepend("<option value='0' disabled selected hidden>Bir il Seçiniz..</option>");
+                        //$("#il option[value=0]").attr("selected", true);
+                        //gelen sonucumuz kontrol ediyoruz ona göre selectimze append işlemi gerçekleştiyoruz
+                        $("#ilce").prepend("<option value='0' disabled selected hidden>Bir ilce Seçiniz..</option>");
+                        //$("#ilce option[value=0]").attr("selected ", true);
+                        if (sonuc1.ok) {
+
+                            $.each(sonuc1.text, function (index, item) {
+                                var optionhtml1 = '<option value="' + item.Value + '">' + item.Text + '</option>';
+                                $("#il").append(optionhtml1);
+
+                            });
+
+                        } else {
+                            $.each(sonuc1.text, function (index, item) {
+                                var optionhtml1 = '<option value="' + item.Value + '">' + item.Text + '</option>';
+                                $("#il").append(optionhtml1);
+
+                            });
+
+                        }
+                    }
+                });
+            },
+            ilceGetir: function (ilID) {
+
+                $.ajax({
+                    //ekstra olarak functionumaza gelen ilID mizi gönderiyoruz
+                    data: { "ilID": ilID, "tip": "ilceGetir" },
+                    success: function (sonuc1) {
+                        //bir önceki kayıtları temizliyorum
+                         $("#ilce option").remove();
+                       
+                        $("#ilce").prepend("<option value='0' disabled selected hidden>Bir ilce Seçiniz..</option>");
+                        //$("#ilce option[value=0]").attr("selected", true);
+                       
+                        if (sonuc1.ok) {
+                            //disabled true yapıyorum
+                            $("#ilce").prop("disabled", false);
+                            $.each(sonuc1.text, function (index1, item1) {
+                                var optionhtml1 = '<option value="' + item1.Value + '">' + item1.Text + '</option>';
+                                $("#ilce").append(optionhtml1);
+                            });
+
+                        } else {
+                            $.each(sonuc1.text, function (index1, item1) {
+                                var optionhtml1 = '<option value="' + item1.Value + '">' + item1.Text + '</option>';
+                                $("#ilce").append(optionhtml1);
+
+                            });
+                        }
+                    }
+                });
+            },
+            
+        });
+        //ilgetirimizi çalıştıyoruz
+        $.ilGetir();
+        //il selectimizde değişiklik olduğunda çalışacak func
+        $("#il").on("change", function () {
+            //seçili olan id alıyoruz
+            var ilID = $(this).val();
+
+            //seçili olan idmizi ilceGetir'imze gönderiyoruz
+            $.ilceGetir(ilID);
+           
+
+        });
+      
+    });
+
+</script>
+<script>
+    $(function myFunction2() {
+        //aynı ajaxmı kullanıcağımdan dolayı ajaxsetup oluştuyorum
+        $.ajaxSetup({
+            type: "post",
+            url: "/Basvuru/UFB",//controlerımda gidicek olan yerim
+            dataType: "json"
+        });
+        $.extend({
+            UniversiteGetir: function () {
+                $.ajax({
+                    //datamızı gönderiyoruz
+                    data: { "tip": "UniversiteGetir" },
+                    success: function (sonuc) {
+                        $("#Universite option").remove();
+                        $("#Fakulte option").remove();
+                        $("#bolum option").remove();
+                        $("#Universite").prepend("<option value='0' disabled selected hidden >Bir Üniversite Seçiniz..</option>");
+                        //$("#Universite option[value=0]").attr("selected ", true);
+                        //gelen sonucumuz kontrol ediyoruz ona göre selectimze append işlemi gerçekleştiyoruz
+                        $("#Fakulte").prepend("<option value='0'  disabled selected hidden>Bir Fakulte Seçiniz..</option>");
+                        ////$("#Fakulte option[value=0]").attr("", true);
+                        $("#bolum").prepend("<option value='0' disabled selected hidden>Bir Bölüm Seçiniz..</option>");
+                        //$("#bolum option[value=0]").attr("selected", true);
+                        if (sonuc.ok) {
+
+                            $.each(sonuc.text, function (index, item) {
+                                var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+                                $("#Universite").append(optionhtml);
+
+                            });
+
+                        } else {
+                            $.each(sonuc.text, function (index, item) {
+                                var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+                                $("#Universite").append(optionhtml);
+
+                            });
+
+                        }
+                    }
+                });
+            },
+            FakulteGetir: function (UniversiteID) {
+
+                $.ajax({
+                    //ekstra olarak functionumaza gelen ilID mizi gönderiyoruz
+                    data: { "UniversiteID": UniversiteID, "tip": "FakulteGetir" },
+                    success: function (sonuc) {
+                        //bir önceki kayıtları temizliyorum
+                        $("#Fakulte option").remove();
+                        $("#bolum option").remove();
+                        $("#Fakulte").prepend("<option value='0' disabled selected hidden>Bir Fakulte Seçiniz..</option>");
+                        //$("#Fakulte option[value=0]").attr("selected", true);
+                        $("#bolum").prepend("<option value='0' disabled selected hidden>Bir Bölüm Seçiniz..</option>");
+                        //$("#bolum option[value=0]").attr("selected", true);
+                        if (sonuc.ok) {
+                            //disabled true yapıyorum
+                            $("#Fakulte").prop("disabled", false);
+                            $.each(sonuc.text, function (index, item) {
+                                var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+                                $("#Fakulte").append(optionhtml);
+                            });
+
+                        } else {
+                            $.each(sonuc.text, function (index, item) {
+                                var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+                                $("#Fakulte").append(optionhtml);
+
+                            });
+                        }
+                    }
+                });
+            },
+            bolumGetir: function (FakulteID) {
+
+                $.ajax({
+                    //ekstra olarak functionumaza gelen ilID mizi gönderiyoruz
+                    data: { "FakulteID": FakulteID, "tip": "bolumGetir" },
+                    success: function (sonuc) {
+                        //bir önceki kayıtları temizliyorum
+                        $("#bolum option").remove();
+                        $("#bolum").prepend("<option value='0' disabled selected hidden>Bir Bölüm Seçiniz..</option>");
+                        //$("#bolum option[value=0]").attr("selected", true);
+                        if (sonuc.ok) {
+                            //disabled true yapıyorum
+                            $("#bolum").prop("disabled", false);
+                            $.each(sonuc.text, function (index, item) {
+                                var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+                                $("#bolum").append(optionhtml);
+                            });
+
+                        } else {
+                            $.each(sonuc.text, function (index, item) {
+                                var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+                                $("#bolum").append(optionhtml);
+
+                            });
+                        }
+                    }
+                });
+            }
+        });
+        //ilgetirimizi çalıştıyoruz
+        $.UniversiteGetir();
+        //il selectimizde değişiklik olduğunda çalışacak func
+        $("#Universite").on("change", function () {
+            //seçili olan id alıyoruz
+            var UniversiteID = $(this).val();
+            //seçili olan idmizi ilceGetir'imze gönderiyoruz
+            $.FakulteGetir(UniversiteID);
+
+        });
+
+        $("#Fakulte").on("change", function () {
+            //seçili olan id alıyoruz
+            var FakulteID = $(this).val();
+            //seçili olan idmizi ilceGetir'imze gönderiyoruz
+            $.bolumGetir(FakulteID);
+        });
+    });
+
+</script>
+<script>
+    $(function () {
+
+        $("#phone").mask("(999) 999-9999");
+    });
+</script>
